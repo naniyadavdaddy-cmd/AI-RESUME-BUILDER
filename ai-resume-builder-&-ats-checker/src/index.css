@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-indigo-650: #4f46e5;
+  --color-slate-850: #1e293b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Bulletproof Print Layout Overrides */
+@media print {
+  html, body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide entire application shell except the preview canvas */
+  body *:not(#resume-document-canvas):not(#resume-document-canvas *) {
+    display: none !important;
+  }
+
+  /* Make target canvas occupy full page seamlessly */
+  #resume-document-canvas {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 6.5in !important; /* Standard narrow printable width margin */
+    min-height: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0.5in !important;
+  }
+
+  /* Clean up page split rules for print to prevent cutting bullets in half */
+  h2, h3, h1 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .space-y-4 > *, .space-y-6 > *, .space-y-3 > * {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+
+/* ==========================================================================
+   Professional High-Contrast Light Mode Overrides for Accessibility
+   ========================================================================== */
+.light-mode {
+  color-scheme: light;
+  --theme-bg: #f8fafc; /* Slate 50 */
+  --theme-card-bg: #ffffff;
+  --theme-card-border: #cbd5e1; /* Slate 300 - high visibility border */
+  --theme-text-primary: #0f172a; /* Slate 900 */
+  --theme-text-secondary: #334155; /* Slate 700 */
+  --theme-text-muted: #475569; /* Slate 600 */
+  
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text-primary) !important;
+}
+
+/* Base text elements under light mode - preserving gradients and transparency safely */
+.light-mode h1:not([class*="bg-clip-text"]):not(.text-transparent),
+.light-mode h2:not([class*="bg-clip-text"]):not(.text-transparent),
+.light-mode h3:not([class*="bg-clip-text"]):not(.text-transparent),
+.light-mode h4:not([class*="bg-clip-text"]):not(.text-transparent),
+.light-mode h5:not([class*="bg-clip-text"]):not(.text-transparent),
+.light-mode h6:not([class*="bg-clip-text"]):not(.text-transparent) {
+  color: var(--theme-text-primary) !important;
+}
+
+.light-mode p,
+.light-mode li {
+  color: var(--theme-text-secondary) !important;
+}
+
+/* Light mode specific classes mapping to ensure excellent clarity & brightness on light background */
+.light-mode .text-slate-100 { color: #0f172a !important; }
+.light-mode .text-slate-150 { color: #181d2c !important; }
+.light-mode .text-slate-200 { color: #1e293b !important; }
+.light-mode .text-slate-250 { color: #1e293b !important; }
+.light-mode .text-slate-300 { color: #334155 !important; }
+.light-mode .text-slate-350 { color: #334155 !important; }
+.light-mode .text-slate-400 { color: #3f4e66 !important; }
+.light-mode .text-slate-450 { color: #3f4e66 !important; }
+.light-mode .text-slate-500 { color: #475569 !important; }
+.light-mode .text-slate-550 { color: #4b5563 !important; }
+.light-mode .text-slate-650 { color: #1e293b !important; }
+
+/* Let active highlighted texts, warnings, link elements, green links, and custom inline blocks retain their colors */
+.light-mode .text-white { color: #ffffff !important; }
+.light-mode .text-purple-300 { color: #7c3aed !important; } /* Higher contrast vivid purple for light mode */
+.light-mode .text-purple-400 { color: #6d28d9 !important; }
+.light-mode .text-blue-400 { color: #2563eb !important; } /* Higher contrast vivid blue */
+.light-mode .text-blue-500 { color: #1d4ed8 !important; }
+.light-mode .text-emerald-400 { color: #059669 !important; } /* Higher contrast vibrant emerald */
+.light-mode .text-amber-400 { color: #d97706 !important; } /* Vibrant amber/orange */
+
+/* Frosted glass/dark cards conversion to solid high-contrast white cards */
+.light-mode .bg-white\/5,
+.light-mode .bg-white\/2,
+.light-mode .bg-black\/20,
+.light-mode .bg-black\/40,
+.light-mode .bg-black\/50 {
+  background-color: var(--theme-card-bg) !important;
+  color: var(--theme-text-primary) !important;
+  border-color: var(--theme-card-border) !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), ...;
+  backdrop-filter: none !important;
+}
+
+/* Input Fields & Actions overrides to prevent blind inputs */
+.light-mode input,
+.light-mode textarea,
+.light-mode select {
+  background-color: #ffffff !important;
+  border-color: #94a3b8 !important; /* high contrast */
+  color: #0d1527 !important;
+  box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+.light-mode input:focus,
+.light-mode textarea:focus,
+.light-mode select:focus {
+  border-color: #2563eb !important; /* High focus visibility */
+  outline: 2px solid transparent !important;
+  outline-offset: 2px !important;
+}
+
+.light-mode input::placeholder,
+.light-mode textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Borders conversion */
+.light-mode .border-white\/10,
+.light-mode .border-white\/15,
+.light-mode .border-white\/5,
+.light-mode .border-blue-500\/20 {
+  border-color: var(--theme-card-border) !important;
+}
+
+/* Badge highlights */
+.light-mode .bg-emerald-500\/10 {
+  background-color: #f0fdf4 !important;
+  color: #166534 !important;
+  border-color: #bbf7d0 !important;
+}
+
+.light-mode .bg-blue-500\/10 {
+  background-color: #eff6ff !important;
+  color: #1e40af !important;
+  border-color: #bfdbfe !important;
+}
+
+/* Footer elements */
+.light-mode footer {
+  border-color: var(--theme-card-border) !important;
+  background-color: #f1f5f9 !important;
+}
+

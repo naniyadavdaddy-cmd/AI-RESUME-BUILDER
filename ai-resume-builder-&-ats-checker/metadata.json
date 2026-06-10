@@ -1,0 +1,8 @@
+{
+  "name": "AI Resume Builder & ATS Checker",
+  "description": "A web-based tool to build resumes with AI content suggestions, perform Applicant Tracking System (ATS) keyword and formatting analysis, and track hiring KPIs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
